@@ -6,7 +6,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawCanvas extends JPanel {
+public class MyCanvas extends JPanel {
     private List<PolyLine> lines = new ArrayList<PolyLine>();
     private PolyLine currentLine = new PolyLine();
 
@@ -14,7 +14,7 @@ public class DrawCanvas extends JPanel {
     private int netVe = 0;
     int dem = 0;
 
-    public DrawCanvas(CoordListener listener) {
+    public MyCanvas(CoordListener listener) {
         this.listener = listener;
 
         this.setPreferredSize(new Dimension(950, 650));
@@ -58,7 +58,7 @@ public class DrawCanvas extends JPanel {
                 currentLine.addPoint(setPointX(e.getX()), setPointY(e.getY()));
 //                g.setColor(Color.BLUE);
                 currentLine.draw(g);
-                currentLine.clearList();
+//                currentLine.clearList();
                 g.dispose();
 
 

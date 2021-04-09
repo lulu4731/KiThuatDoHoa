@@ -9,11 +9,35 @@ import java.util.List;
 public class PolyLine {
     List<Point> list = new ArrayList<>();
     int[][] board = new int[190][130];
+
     int Color = 0;
     private int x1, y1, x2, y2;
     int netVe = 0;
     int dem = 0;
     private CoordListener listener;
+    Point startPoint, endPoint;
+
+    public PolyLine(List<Point> list, Point startPoint, Point endPoint) {
+        this.list = list;
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+    }
+
+    public Point getStartPoint() {
+        return startPoint;
+    }
+
+    public void setStartPoint(Point startPoint) {
+        this.startPoint = startPoint;
+    }
+
+    public Point getEndPoint() {
+        return endPoint;
+    }
+
+    public void setEndPoint(Point endPoint) {
+        this.endPoint = endPoint;
+    }
 
     public void setNetVe(int netVe) {
         this.netVe = netVe;
@@ -45,12 +69,34 @@ public class PolyLine {
             x2 = x;
             y2 = y;
             if (netVe == 1 || netVe == 2 || netVe == 3 || netVe == 0) {
-                y2 = y1;
+                y2 = y;
                 LineBres(x1, y1, x2, y2);
             } else if (netVe == 4) {
                 HCN(x1, y1, x2, y2);
             } else {
-                tamGiac(x1, y1, x2, y2);
+                LineBres(x1,y1,x2,y2);
+                startPoint = new Point(x1,y1);
+                endPoint = new Point(x2,y2);
+                Point pA = startPoint.translate(-startPoint.getX(), -startPoint.getY());
+                Point pB = endPoint.translate(-startPoint.getX(), -startPoint.getY());
+
+                MyVector vAB = new MyVector(pA, pB);
+                double angle = vAB.angleRadian(MyVector.oX);
+
+                Point pC = pB.rotate(pB.getY() < pA.getY() ? angle : -angle);
+
+                Point pU = new Point(pC.getX() - 4, pC.getY() + 4);
+                Point pV = new Point(pC.getX() - 4, pC.getY() - 4);
+
+                pU = pU.rotate(pB.getY() < pA.getY() ? -angle : angle);
+                pV = pV.rotate(pB.getY() < pA.getY() ? -angle : angle);
+
+                pU = pU.translate(startPoint.getX(), startPoint.getY());
+                pV = pV.translate(startPoint.getX(), startPoint.getY());
+
+               LineBres(endPoint.getX(), endPoint.getY(), pU.getX(), pU.getY());
+               LineBres(endPoint.getX(), endPoint.getY(), pV.getX(), pV.getY());
+
             }
 //
         }
@@ -63,7 +109,7 @@ public class PolyLine {
     public void draw(Graphics g) { // draw itself
         for (Point p : list) {
 
-            PutPixel(p, Color, g);
+            PutPixel(p, MyFrame.colorRGB, g);
         }
     }
 
@@ -90,12 +136,23 @@ public class PolyLine {
         LineBres(x2, y1, x2, y2);
     }
 
-    public void tamGiac(int x1, int y1, int x2, int y2) {
-        LineBres(x1, y1, x2 + 1, y1);
-        LineBres(x2, y1 + 2, x2 + 2, y1);
-        LineBres(x2, y1 - 2, x2 + 2, y1);
-        LineBres(x2, y1 - 2, x2, y1 + 2);
+    public void muiTen(int x1, int y1, int x2, int y2) {
+        if (x1 < x2) {
+            LineBres(x1, y1, x2 + 1, y1);
+            LineBres(x2, y1 + 2, x2 + 2, y1);
+            LineBres(x2, y1 - 2, x2 + 2, y1);
+            LineBres(x2, y1 - 2, x2, y1 + 2);
+        }
+        else {
+            LineBres(x1, y1, x2 - 1, y1);
+            LineBres(x2, y1 - 2, x2 - 2, y1);
+            LineBres(x2, y1 + 2, x2 - 2, y1);
+            LineBres(x2, y1 + 2, x2, y1 - 2);
+        }
+
     }
+
+
 
     public void PutPixel(Point p, int Color, Graphics g) {
         int xm = p.getX() + 190 / 2;
@@ -110,7 +167,6 @@ public class PolyLine {
     public boolean is(int a) {
         if (netVe == 0) {
             return true;
-
         } else if (netVe == 1) {
             if (a % 8 < 3 || a % 8 == 5) {
                 return true;
@@ -125,7 +181,7 @@ public class PolyLine {
                 return false;
             }
         } else if (netVe == 3) {
-            if (a % 27 < 10 || a % 27 == 15 || a % 27 == 20) {
+            if (a % 12 < 4 || a % 12 == 6 || a % 12 == 9) {
                 return true;
 
             } else {
@@ -157,7 +213,6 @@ public class PolyLine {
 
         if (Dx >= Dy) {
             p = 2 * Dy - Dx;
-
             while (x != x2) {
                 if (p < 0) p += 2 * Dy;
                 else {
@@ -165,14 +220,12 @@ public class PolyLine {
                     y += yUnit;
                 }
                 x += xUnit;
-                dem++;
+
                 if (is(dem)) list.add(new Point(x, y));
-
-
+                dem++;
             }
         } else {
             p = 2 * Dx - Dy;
-
             while (y != y2) {
                 if (p < 0) p += 2 * Dx;
                 else {
@@ -182,10 +235,8 @@ public class PolyLine {
                 y += yUnit;
 
                 if (is(dem)) list.add(new Point(x, y));
-
-
+                dem++;
             }
         }
-
     }
 }
