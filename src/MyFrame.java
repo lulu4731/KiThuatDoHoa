@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +14,13 @@ public class MyFrame extends JFrame implements CoordListener {
     private JLabel coordinates;
     private JButton haichamrach;
     private JButton muiten;
-    DrawCanvas canvas;
-    private int colorRGB;
+    private JButton netlien;
+    private JButton Clear;
+    MyCanvas canvas;
+
+
+    public static int colorRGB;
+
     private List<PolyLine> lines;
     private PolyLine currentLine;
     private List<Integer> x = new ArrayList<>();
@@ -27,7 +30,7 @@ public class MyFrame extends JFrame implements CoordListener {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        canvas = new DrawCanvas(this);
+        canvas = new MyCanvas(this);
         currentLine = new PolyLine(this);
         lines = new ArrayList<>();
         ChooseColor.addActionListener(e -> {
@@ -35,6 +38,11 @@ public class MyFrame extends JFrame implements CoordListener {
             if (color != null) {
                 ChooseColor.setBackground(color);
                 colorRGB = color.getRGB();
+            }
+        });
+        netlien.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { canvas.setNetVe(0);
             }
         });
         chamrach.addActionListener(new ActionListener() {
@@ -67,11 +75,17 @@ public class MyFrame extends JFrame implements CoordListener {
                 canvas.setNetVe(5);
             }
         });
+        Clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         this.mainPaint.add(canvas);
         this.add(rootPaint);
         this.pack();
     }
-
+//jjjjjjjjjjddfsdfsadăd
     @Override
     public void change(int x, int y) {
         coordinates.setText("x: " + x + " - y:" + y);
@@ -81,4 +95,7 @@ public class MyFrame extends JFrame implements CoordListener {
     public void changeColor(int color) {
         color = colorRGB;
     }
+
+    // cua huy
+
 }
