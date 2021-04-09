@@ -145,20 +145,20 @@ public class PolyLine {
         LineBres(x2, y1, x2, y2);
     }
 
-    public void muiTen(int x1, int y1, int x2, int y2) {
-        if (x1 < x2) {
-            LineBres(x1, y1, x2 + 1, y1);
-            LineBres(x2, y1 + 2, x2 + 2, y1);
-            LineBres(x2, y1 - 2, x2 + 2, y1);
-            LineBres(x2, y1 - 2, x2, y1 + 2);
-        } else {
-            LineBres(x1, y1, x2 - 1, y1);
-            LineBres(x2, y1 - 2, x2 - 2, y1);
-            LineBres(x2, y1 + 2, x2 - 2, y1);
-            LineBres(x2, y1 + 2, x2, y1 - 2);
-        }
-
-    }
+//    public void muiTen(int x1, int y1, int x2, int y2) {
+//        if (x1 < x2) {
+//            LineBres(x1, y1, x2 + 1, y1);
+//            LineBres(x2, y1 + 2, x2 + 2, y1);
+//            LineBres(x2, y1 - 2, x2 + 2, y1);
+//            LineBres(x2, y1 - 2, x2, y1 + 2);
+//        } else {
+//            LineBres(x1, y1, x2 - 1, y1);
+//            LineBres(x2, y1 - 2, x2 - 2, y1);
+//            LineBres(x2, y1 + 2, x2 - 2, y1);
+//            LineBres(x2, y1 + 2, x2, y1 - 2);
+//        }
+//
+//    }
 
 
     public void PutPixel(Point p, int Color, Graphics g) {
