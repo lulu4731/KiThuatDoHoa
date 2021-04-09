@@ -48,7 +48,6 @@ public class PolyLine {
     // Constructor
     public PolyLine() {
         x1 = y1 = x2 = y2 = -1;
-
     }
 
     public PolyLine(CoordListener listener) {
@@ -61,7 +60,7 @@ public class PolyLine {
 //        listX = xList;
 //        return listX;
 //    }
-    // Add a point to this PolyLine
+    // Add a point to this PolyLine.
     public void addPoint(int x, int y) {
         if (x <= (MAX_WIDTH - 1) / 2 && x >= -MAX_WIDTH / 2 && y <= MAX_HEIGHT / 2 && y >= (-MAX_HEIGHT + 1) / 2) {
             if (x1 == -1) {

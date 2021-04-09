@@ -85,7 +85,7 @@ public class MyFrame extends JFrame implements CoordListener {
         this.add(rootPaint);
         this.pack();
     }
-
+//jjjjjjjjjjddfsdfsadăd
     @Override
     public void change(int x, int y) {
         coordinates.setText("x: " + x + " - y:" + y);
