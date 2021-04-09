@@ -68,6 +68,7 @@ public class MyCanvas extends JPanel {
 
     }
 
+
     public void setNetVe(int x) {
         netVe = x;
         currentLine.setNetVe(netVe);

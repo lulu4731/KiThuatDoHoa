@@ -15,6 +15,7 @@ public class MyFrame extends JFrame implements CoordListener {
     private JButton haichamrach;
     private JButton muiten;
     private JButton netlien;
+    private JButton Clear;
     MyCanvas canvas;
 
 
@@ -74,6 +75,12 @@ public class MyFrame extends JFrame implements CoordListener {
                 canvas.setNetVe(5);
             }
         });
+        Clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         this.mainPaint.add(canvas);
         this.add(rootPaint);
         this.pack();
@@ -88,4 +95,7 @@ public class MyFrame extends JFrame implements CoordListener {
     public void changeColor(int color) {
         color = colorRGB;
     }
+
+    // cua huy
+
 }

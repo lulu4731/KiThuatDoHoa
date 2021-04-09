@@ -7,8 +7,10 @@ import java.util.List;
  * The PolyLine class model a line made up of many points
  */
 public class PolyLine {
+    int MAX_WIDTH = 950 / 5, MAX_HEIGHT = 650 / 5;
+
     List<Point> list = new ArrayList<>();
-    int[][] board = new int[190][130];
+    int[][] board = new int[MAX_WIDTH][MAX_HEIGHT];
 
     int Color = 0;
     private int x1, y1, x2, y2;
@@ -51,7 +53,6 @@ public class PolyLine {
 
     public PolyLine(CoordListener listener) {
         this.listener = listener;
-        System.out.println("dddd");
         listener.changeColor(Color);
     }
 
@@ -62,43 +63,47 @@ public class PolyLine {
 //    }
     // Add a point to this PolyLine
     public void addPoint(int x, int y) {
-        if (x1 == -1) {
-            x1 = x;
-            y1 = y;
-        } else {
-            x2 = x;
-            y2 = y;
-            if (netVe == 1 || netVe == 2 || netVe == 3 || netVe == 0) {
-                y2 = y;
-                LineBres(x1, y1, x2, y2);
-            } else if (netVe == 4) {
-                HCN(x1, y1, x2, y2);
+        if (x <= (MAX_WIDTH - 1) / 2 && x >= -MAX_WIDTH / 2 && y <= MAX_HEIGHT / 2 && y >= (-MAX_HEIGHT + 1) / 2) {
+            if (x1 == -1) {
+                x1 = x;
+                y1 = y;
             } else {
-                LineBres(x1,y1,x2,y2);
-                startPoint = new Point(x1,y1);
-                endPoint = new Point(x2,y2);
-                Point pA = startPoint.translate(-startPoint.getX(), -startPoint.getY());
-                Point pB = endPoint.translate(-startPoint.getX(), -startPoint.getY());
+                x2 = x;
+                y2 = y;
+                if (netVe == 1 || netVe == 2 || netVe == 3 || netVe == 0) {
+                    y2 = y;
+                    LineBres(x1, y1, x2, y2);
+                } else if (netVe == 4) {
+                    HCN(x1, y1, x2, y2);
+                } else {
+                    LineBres(x1, y1, x2, y2);
+                    startPoint = new Point(x1, y1);
+                    endPoint = new Point(x2, y2);
+                    Point pA = startPoint.translate(-startPoint.getX(), -startPoint.getY());
+                    Point pB = endPoint.translate(-startPoint.getX(), -startPoint.getY());
 
-                MyVector vAB = new MyVector(pA, pB);
-                double angle = vAB.angleRadian(MyVector.oX);
+                    MyVector vAB = new MyVector(pA, pB);
+                    double angle = vAB.angleRadian(MyVector.oX);
 
-                Point pC = pB.rotate(pB.getY() < pA.getY() ? angle : -angle);
+                    Point pC = pB.rotate(pB.getY() < pA.getY() ? angle : -angle);
 
-                Point pU = new Point(pC.getX() - 4, pC.getY() + 4);
-                Point pV = new Point(pC.getX() - 4, pC.getY() - 4);
+                    Point pU = new Point(pC.getX() - 4, pC.getY() + 4);
+                    Point pV = new Point(pC.getX() - 4, pC.getY() - 4);
 
-                pU = pU.rotate(pB.getY() < pA.getY() ? -angle : angle);
-                pV = pV.rotate(pB.getY() < pA.getY() ? -angle : angle);
+                    pU = pU.rotate(pB.getY() < pA.getY() ? -angle : angle);
+                    pV = pV.rotate(pB.getY() < pA.getY() ? -angle : angle);
 
-                pU = pU.translate(startPoint.getX(), startPoint.getY());
-                pV = pV.translate(startPoint.getX(), startPoint.getY());
+                    pU = pU.translate(startPoint.getX(), startPoint.getY());
+                    pV = pV.translate(startPoint.getX(), startPoint.getY());
 
-               LineBres(endPoint.getX(), endPoint.getY(), pU.getX(), pU.getY());
-               LineBres(endPoint.getX(), endPoint.getY(), pV.getX(), pV.getY());
+                    LineBres(endPoint.getX(), endPoint.getY(), pU.getX(), pU.getY());
+                    LineBres(endPoint.getX(), endPoint.getY(), pV.getX(), pV.getY());
 
-            }
+                }
 //
+            }
+        } else {
+            return;
         }
 //        xList.add(x);
 //        yList.add(y);
@@ -129,6 +134,10 @@ public class PolyLine {
 
     }
 
+    public void clearBoard() {
+
+    }
+
     public void HCN(int x1, int y1, int x2, int y2) {
         LineBres(x1, y1, x2, y1);
         LineBres(x1, y2, x1, y1);
@@ -142,8 +151,7 @@ public class PolyLine {
             LineBres(x2, y1 + 2, x2 + 2, y1);
             LineBres(x2, y1 - 2, x2 + 2, y1);
             LineBres(x2, y1 - 2, x2, y1 + 2);
-        }
-        else {
+        } else {
             LineBres(x1, y1, x2 - 1, y1);
             LineBres(x2, y1 - 2, x2 - 2, y1);
             LineBres(x2, y1 + 2, x2 - 2, y1);
@@ -151,7 +159,6 @@ public class PolyLine {
         }
 
     }
-
 
 
     public void PutPixel(Point p, int Color, Graphics g) {
